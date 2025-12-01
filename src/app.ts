@@ -10,8 +10,11 @@ import { notFound } from './middlewares/notFound';
 import { errorHandler } from './middlewares/errorHandler';
 import { swaggerSpec } from './lib/document/swagger';
 import { config } from './config';
+import { createServer } from 'http';
 
 const app: Application = express();
+
+export const httpServer = createServer(app)
 
 // Security
 app.use(helmet({ contentSecurityPolicy: false }));
@@ -25,7 +28,12 @@ app.use(morgan('dev'));
 
 // Routes
 app.use('/api/v1/hello', helloRoutes);
-
+app.use('/', (req, res) => {
+  res.json({
+    success: true, 
+    message: "this app is runnig good"
+  })
+});
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Health check
 app.get('/health', (req, res) => res.status(200).json({ status: 'ok' }));
