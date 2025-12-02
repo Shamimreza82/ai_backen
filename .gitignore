@@ -39,3 +39,5 @@ temp/
 package-lock.json
 pnpm-lock.yaml
 yarn.lock
+
+/generated/prisma
